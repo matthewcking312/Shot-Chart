@@ -16,6 +16,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Import all of our players that users will be able to select from.
 player_list = pd.read_csv('player_list.csv')
+# From the player list, we want to create a python dictionary. It should contain their values
+# player_ID, and name. The name will be what is displayed, and the playerID will allow us to request the data.
+
 
 
 # This will allow us to gather the shot chart data for the individual player.
@@ -72,7 +75,7 @@ data = [missed_shot_trace, made_shot_trace]
 
 app.layout = html.Div(children=[
     html.H1(
-    	children='Hello Dash',
+    	children='Player Shot Chart',
     	style={
     		'textAlign': 'center',
     		'color': colors['text']
@@ -86,6 +89,26 @@ app.layout = html.Div(children=[
         'textAlign': 'center'
         # 'color': colors['text']
     }),
+
+    dcc.Dropdown(
+            options=(
+            	player_list.reindex(['Name', 'PlayerID'], axis=1)
+			   .set_axis(['label', 'value'], axis=1, inplace=False)
+			   .to_dict('r')),
+            multi=False,
+            searchable=True,
+            className='six columns',
+            id='item-selector'),
+
+ #    dcc.Dropdown(
+	#     options=[
+	#         {'label': 'New York City', 'value': 'NYC'},
+	#         {'label': 'Montreal', 'value': 'MTL'},
+	#         {'label': 'San Francisco', 'value': 'SF'}
+ #    ],
+	#     value=['MTL', 'NYC'],
+	#     multi=False
+	# ),
 
     dcc.Graph(
         id='example-graph',
@@ -101,8 +124,8 @@ app.layout = html.Div(children=[
 				    width = 650#,
 				    #shapes = court_shapes
 				),
-			'style': {'textAlign': 'center'}
-        }
+        },
+        style={'display': 'inline-block', 'horizontal-align': 'center'}
     )
 ])
 
