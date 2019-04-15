@@ -95,6 +95,8 @@ app.layout = html.Div(children=[
             	player_list.reindex(['Name', 'PlayerID'], axis=1)
 			   .set_axis(['label', 'value'], axis=1, inplace=False)
 			   .to_dict('r')),
+            value=(list(map(str, player_list['PlayerID']))),
+            placeholder="Select a Player",
             multi=False,
             searchable=True,
             className='six columns',
@@ -128,6 +130,7 @@ app.layout = html.Div(children=[
         style={'display': 'inline-block', 'horizontal-align': 'center'}
     )
 ])
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
